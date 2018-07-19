@@ -6,13 +6,30 @@ const webpack = require('webpack');
 
 let plugins=[];
 
+
 plugins.push(new extractTextPlugin('styles.css'));
-plugins.push(new webpack.ProvidePlugin({
-    '$':'jquery/dist/jquery.js',
-    'JQuery':'jquery/dist/jquery.js'
-}))
+plugins.push(
+    new webpack.ProvidePlugin(
+        {
+            '$':'jquery/dist/jquery.js',
+            'JQuery':'jquery/dist/jquery.js',
+            'jQuery':'jquery/dist/jquery.js'
+        }
+    )
+)
+plugins.push(new webpack.optimize.CommonsChunkPlugin(
+        {
+            name:'vendor',
+            filename:'vendor.bundle.js'
+        }
+    )
+)
+
 
 if(process.env.NODE_ENV == 'production'){
+    //processamento mais rápido
+    plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+
     plugins.push(new babiliPlugin());
     plugins.push(new optimizeCSSAssetsPlugin({
         cssProcessor:require('cssnano'),
@@ -26,12 +43,14 @@ if(process.env.NODE_ENV == 'production'){
 }
 
 module.exports={
-    entry:'./app-src/app.js',
+    entry:{        
+        app:'./app-src/app.js',
+        vendor:['jquery','bootstrap','reflect-metadata']
+    },     
     output:{
         filename:'bundle.js',
         path:path.resolve(__dirname,'dist'),
         publicPath:'dist'
-
     },
     module:{
         rules:

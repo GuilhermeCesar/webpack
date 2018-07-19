@@ -14,14 +14,14 @@ export class NegociacaoService {
         return this._http
             .get('http://localhost:3000/negociacoes/semana')
             .then(
-            dados =>
-                dados.map(objeto =>
-                    new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor))
-            ,
-            err => {
+                dados =>
+                    dados.map(objeto =>
+                        new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor))
+                ,
+                err => {
 
-                throw new ApplicationException('Não foi possível obter as negociações da semana');
-            }
+                    throw new ApplicationException('Não foi possível obter as negociações da semana');
+                }
             );
     }
 
@@ -43,7 +43,7 @@ export class NegociacaoService {
     obtemNegociacoesDaSemanaRetrasada() {
 
         return this._http
-            .get('negociacoes/retrasada')
+            .get('http://localhost:3000/negociacoes/retrasada')
             .then(
             dados => dados.map(objeto =>
                 new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor))

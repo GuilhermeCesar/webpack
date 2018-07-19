@@ -48,6 +48,7 @@ api.listaRetrasada = function(req, res) {
 };
 
 api.cadastraNegociacao = function(req, res) {
+    console.log(JSON.stringify(req.body, null, 4))
    req.body._data = new Date(req.body._data);
    console.log('Dado recebido via POST:')
    console.log(req.body);
