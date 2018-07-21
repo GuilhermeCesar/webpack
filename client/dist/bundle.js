@@ -446,7 +446,9 @@ const controller = new __WEBPACK_IMPORTED_MODULE_0__controllers_NegociacaoContro
 const negociacao = new __WEBPACK_IMPORTED_MODULE_1__domain_index_js__["a" /* Negociacao */](new Date(), 1, 200);
 const headers = new Headers();
 headers.set('Content-Type', 'application/json');
+
 const body = JSON.stringify(negociacao);
+console.log(body);
 const method = 'POST';
 
 const config = {
@@ -455,7 +457,7 @@ const config = {
     body
 };
 
-fetch('http://localhost:3000/negociacoes', config).then(() => console.log('Dado enviado com sucesso')).catch(error => console.error(error));
+fetch('http://localhost:3000/negociacoes', config).then(() => console.log('Dado enviado com sucesso')).catch(err => console.error(err));
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
@@ -789,7 +791,7 @@ let NegociacaoService = class NegociacaoService {
 
     obtemNegociacoesDaSemanaRetrasada() {
 
-        return this._http.get('negociacoes/retrasada').then(dados => dados.map(objeto => new __WEBPACK_IMPORTED_MODULE_1__Negociacao_js__["a" /* Negociacao */](new Date(objeto.data), objeto.quantidade, objeto.valor)), err => {
+        return this._http.get('http://localhost:3000/negociacoes/retrasada').then(dados => dados.map(objeto => new __WEBPACK_IMPORTED_MODULE_1__Negociacao_js__["a" /* Negociacao */](new Date(objeto.data), objeto.quantidade, objeto.valor)), err => {
             throw new __WEBPACK_IMPORTED_MODULE_2__util_ApplicationException_js__["a" /* ApplicationException */]('Não foi possível obter as negociações da semana retrasada');
         });
     }
