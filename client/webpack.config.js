@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let plugins=[];
 
+// cria o arquivo html
 plugins.push(new HtmlWebpackPlugin({
     hash:true,
     minify:{
@@ -18,7 +19,9 @@ plugins.push(new HtmlWebpackPlugin({
     template:__dirname+'/main.html'
 }));
 
+// extrai o css em um bundle
 plugins.push(new extractTextPlugin('styles.css'));
+// coloca o jquery como escopo globol
 plugins.push(
     new webpack.ProvidePlugin(
         {
@@ -37,11 +40,16 @@ plugins.push(new webpack.optimize.CommonsChunkPlugin(
 )
 
 
+let SERVICE_URL = JSON.stringify('http://localhost:3000');
 if(process.env.NODE_ENV == 'production'){
-    //processamento mais rápido
+    //processamento mais rápido    
     plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
 
+    SERVICE_URL=JSON.stringify('http://endereco-da-sua-api');
+
+    // minifica
     plugins.push(new babiliPlugin());
+    // minificar csss
     plugins.push(new optimizeCSSAssetsPlugin({
         cssProcessor:require('cssnano'),
         cssProcessorOptions:{
@@ -53,15 +61,21 @@ if(process.env.NODE_ENV == 'production'){
     }))
 }
 
+//trocar
+plugins.push(new webpack.DefinePlugin({SERVICE_URL}));
+
 module.exports={
+    // bundles
     entry:{        
         app:'./app-src/app.js',
         vendor:['jquery','bootstrap','reflect-metadata']
-    },     
+    }, 
+        // saidas
     output:{
         filename:'bundle.js',
         path:path.resolve(__dirname,'dist')        
     },
+    // modules
     module:{
         rules:
         [
