@@ -31,6 +31,8 @@ plugins.push(
         }
     )
 )
+
+// criar um arquivo vendor com as  libs
 plugins.push(new webpack.optimize.CommonsChunkPlugin(
         {
             name:'vendor',
@@ -39,7 +41,7 @@ plugins.push(new webpack.optimize.CommonsChunkPlugin(
     )
 )
 
-
+// dominio de dev e produção da api
 let SERVICE_URL = JSON.stringify('http://localhost:3000');
 if(process.env.NODE_ENV == 'production'){
     //processamento mais rápido    
